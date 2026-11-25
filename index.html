@@ -25,12 +25,26 @@
     <!-- mobile specific metas
     ================================================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#141516">
+    <meta name="theme-color" content="#141516" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f5f3ee" media="(prefers-color-scheme: light)">
+    <meta name="color-scheme" content="dark light">
+
+    <!-- tema: aplica antes de desenhar a página (evita piscar com o tema errado)
+         sem escolha salva, segue o tema do sistema -->
+    <script>
+        (function () {
+            var salvo = null;
+            try { salvo = localStorage.getItem('tema'); } catch (e) {}
+            if (salvo === 'light' || salvo === 'dark') {
+                document.documentElement.setAttribute('data-theme', salvo);
+            }
+        })();
+    </script>
 
     <!-- CSS
     ================================================== -->
-    <link rel="stylesheet" href="css/vendor.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/vendor.css?v=3">
+    <link rel="stylesheet" href="css/styles.css?v=3">
 
     <!-- favicons
     ================================================== -->
@@ -43,6 +57,12 @@
 </head>
 
 <body id="top">
+
+    <!-- botão de tema claro/escuro -->
+    <button type="button" class="theme-toggle" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0-5a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm0 17a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1zM3 11h2a1 1 0 1 1 0 2H3a1 1 0 1 1 0-2zm16 0h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2zM5.64 4.22l1.42 1.42a1 1 0 0 1-1.42 1.42L4.22 5.64a1 1 0 0 1 1.42-1.42zm12.72 12.72l1.42 1.42a1 1 0 0 1-1.42 1.42l-1.42-1.42a1 1 0 0 1 1.42-1.42zM19.78 5.64l-1.42 1.42a1 1 0 0 1-1.42-1.42l1.42-1.42a1 1 0 0 1 1.42 1.42zM7.06 18.36l-1.42 1.42a1 1 0 0 1-1.42-1.42l1.42-1.42a1 1 0 0 1 1.42 1.42z"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 14.5A9 9 0 0 1 9.5 3a.75.75 0 0 0-.98-.86A10.5 10.5 0 1 0 21.86 15.48a.75.75 0 0 0-.86-.98z"/></svg>
+    </button>
 
 
     <!-- # preloader
@@ -496,8 +516,48 @@
 
     <!-- Java Script
     ================================================== -->
-    <script src="js/plugins.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/plugins.js?v=3"></script>
+    <script src="js/main.js?v=3"></script>
+    <script>
+        /* tema claro/escuro: segue o sistema; o botão troca e só guarda a escolha
+           quando ela é diferente do sistema (escolher o mesmo do sistema volta ao automático) */
+        (function () {
+            var raiz = document.documentElement;
+            var sistemaClaro = window.matchMedia('(prefers-color-scheme: light)');
+            var botao = document.querySelector('.theme-toggle');
+
+            function temaAtual() {
+                return raiz.getAttribute('data-theme') || (sistemaClaro.matches ? 'light' : 'dark');
+            }
+
+            function atualizar() {
+                var claro = temaAtual() === 'light';
+                raiz.classList.toggle('is-light', claro);
+                botao.setAttribute('aria-label', claro ? 'Mudar para o tema escuro' : 'Mudar para o tema claro');
+                botao.title = botao.getAttribute('aria-label');
+            }
+
+            botao.addEventListener('click', function () {
+                var novo = temaAtual() === 'light' ? 'dark' : 'light';
+                var doSistema = sistemaClaro.matches ? 'light' : 'dark';
+                try {
+                    if (novo === doSistema) {
+                        raiz.removeAttribute('data-theme');
+                        localStorage.removeItem('tema');
+                    } else {
+                        raiz.setAttribute('data-theme', novo);
+                        localStorage.setItem('tema', novo);
+                    }
+                } catch (e) {
+                    raiz.setAttribute('data-theme', novo);
+                }
+                atualizar();
+            });
+
+            sistemaClaro.addEventListener('change', atualizar);
+            atualizar();
+        })();
+    </script>
 
 </body>
 </html>

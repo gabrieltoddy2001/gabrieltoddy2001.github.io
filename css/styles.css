@@ -4265,3 +4265,203 @@ img.u-pull-left {
 .modal-popup img {
     height : auto;
 }
+
+/* celular (até 400px): mantém a lista com miniatura + nome do projeto,
+   em vez de mostrar só as imagens em duas colunas */
+@media screen and (max-width: 400px) {
+    .folio-list .column {
+        width : 100%;
+    }
+
+    .folio-list__item {
+        margin-bottom : var(--vspace-0_75);
+    }
+
+    .folio-list__item-link {
+        padding-left : calc(4.25 * var(--space));
+    }
+
+    .folio-list__item-pic {
+        position : absolute;
+    }
+
+    .folio-list__item-pic img {
+        width  : var(--item-min-height);
+        height : var(--item-min-height);
+    }
+
+    .folio-list__item-text,
+    .folio-list__proj-link {
+        display : block;
+    }
+
+    .folio-list__item-text {
+        padding-right : var(--vspace-1);
+    }
+}
+
+/* ===================================================================
+ * Tema claro / escuro
+ * - por padrão segue o tema do sistema (prefers-color-scheme)
+ * - o botão .theme-toggle grava a escolha em data-theme no <html>
+ * ------------------------------------------------------------------- */
+:root {
+    --color-fg         : #ffffff;
+    --color-fg-50      : rgba(255, 255, 255, 0.5);
+    --color-fg-10      : rgba(255, 255, 255, 0.1);
+    --color-toggle-bg  : var(--color-gray-9);
+}
+
+/* paleta clara: usada quando o sistema está claro (e a pessoa não escolheu escuro)
+   ou quando a pessoa escolheu claro no botão */
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+        --color-body          : #f5f3ee;
+        --color-text          : #45464a;
+        --color-text-dark     : #141516;
+        --color-text-light    : #66676b;
+        --color-placeholder   : #66676b;
+        --color-border        : rgba(0, 0, 0, 0.09);
+        --color-gray-9        : #e7e3da;
+        --color-gray-8        : #d6d1c6;
+        --color-1             : hsla(36, 70%, 32%, 1);
+        --color-1-dark        : hsla(36, 70%, 40%, 1);
+        --color-1-darker      : hsla(36, 70%, 30%, 1);
+        --color-btn-hover     : #141516;
+        --color-btn-hover-text: #ffffff;
+        --color-loader        : #141516;
+        --color-loader-light  : rgba(0, 0, 0, 0.1);
+        --color-fg            : #141516;
+        --color-fg-50         : rgba(0, 0, 0, 0.45);
+        --color-fg-10         : rgba(0, 0, 0, 0.12);
+        --color-toggle-bg     : #e7e3da;
+        color-scheme          : light;
+    }
+}
+
+:root[data-theme="light"] {
+    --color-body          : #f5f3ee;
+    --color-text          : #45464a;
+    --color-text-dark     : #141516;
+    --color-text-light    : #66676b;
+    --color-placeholder   : #66676b;
+    --color-border        : rgba(0, 0, 0, 0.09);
+    --color-gray-9        : #e7e3da;
+    --color-gray-8        : #d6d1c6;
+    --color-1             : hsla(36, 70%, 32%, 1);
+    --color-1-dark        : hsla(36, 70%, 40%, 1);
+    --color-1-darker      : hsla(36, 70%, 30%, 1);
+    --color-btn-hover     : #141516;
+    --color-btn-hover-text: #ffffff;
+    --color-loader        : #141516;
+    --color-loader-light  : rgba(0, 0, 0, 0.1);
+    --color-fg            : #141516;
+    --color-fg-50         : rgba(0, 0, 0, 0.45);
+    --color-fg-10         : rgba(0, 0, 0, 0.12);
+    --color-toggle-bg     : #e7e3da;
+    color-scheme          : light;
+}
+
+:root[data-theme="dark"] {
+    color-scheme : dark;
+}
+
+/* cores que o modelo deixava fixas em branco passam a seguir o tema */
+#loader                                  { background-color : var(--color-loader); }
+.text-pretitle                           { color : var(--color-fg); }
+.text-pretitle.with-line                 { color : var(--color-1); }
+.text-pretitle.with-line::before         { background-color : var(--color-fg-50); }
+.mobile-home-link a,
+.main-nav a                              { color : var(--color-fg); }
+.mobile-home-link a:focus,
+.mobile-home-link a:hover,
+.main-nav a:focus,
+.main-nav a:hover                        { color : var(--color-1); }
+.mobile-menu-toggle span,
+.mobile-menu-toggle span::before,
+.mobile-menu-toggle span::after          { background-color : var(--color-fg); }
+.mobile-menu-toggle.is-clicked span      { background-color : transparent; }
+.intro-social a:focus,
+.intro-social a:hover                    { color : var(--color-fg); }
+.intro-scrolldown svg path               { fill : var(--color-fg); }
+.folio-list__item-link                   { color : var(--color-fg); }
+.folio-list__item-link:focus,
+.folio-list__item-link:hover             { color : var(--color-1); }
+.folio-list__proj-link svg path          { fill : var(--color-fg); }
+.s-footer a:hover                        { color : var(--color-fg); }
+.ss-copyright span::after                { color : var(--color-fg-10); }
+.ss-go-top svg path                      { fill : var(--color-fg); }
+.ss-go-top a:hover                       { background-color : var(--color-fg); border-color : var(--color-fg); }
+.ss-go-top a:hover svg path              { fill : var(--color-body); }
+
+@media screen and (max-width: 800px) {
+    .main-nav a:focus,
+    .main-nav a:hover                    { color : var(--color-fg); }
+    .main-nav .current a                 { color : var(--color-1); }
+}
+
+/* botão de alternar tema */
+.theme-toggle {
+    position         : fixed;
+    left             : 2rem;
+    bottom           : 2rem;
+    z-index          : 600;
+    width            : 4.4rem;
+    height           : 4.4rem;
+    padding          : 0;
+    margin           : 0;
+    border           : 1px solid var(--color-border);
+    border-radius    : 50%;
+    background-color : var(--color-toggle-bg);
+    color            : var(--color-fg);
+    display          : flex;
+    align-items      : center;
+    justify-content  : center;
+    cursor           : pointer;
+    box-shadow       : 0 4px 14px rgba(0, 0, 0, 0.18);
+    transition       : transform .2s ease, background-color .3s ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+    transform : scale(1.08);
+    outline   : 2px solid var(--color-1);
+    outline-offset : 2px;
+}
+
+.theme-toggle svg {
+    width  : 2rem;
+    height : 2rem;
+    fill   : currentColor;
+}
+
+/* mostra a lua no tema claro (para ir ao escuro) e o sol no escuro */
+.theme-toggle .icon-sun   { display : block; }
+.theme-toggle .icon-moon  { display : none; }
+.is-light .theme-toggle .icon-sun  { display : none; }
+.is-light .theme-toggle .icon-moon { display : block; }
+
+body,
+.s-header,
+.header-mobile,
+.main-nav ul,
+.main-nav-wrap {
+    transition : background-color .3s ease, color .3s ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus,
+.theme-toggle:active {
+    background-color : var(--color-toggle-bg);
+    color            : var(--color-fg);
+    border-color     : var(--color-border);
+}
+
+@media screen and (max-width: 600px) {
+    .theme-toggle {
+        left   : 1.2rem;
+        bottom : 1.2rem;
+        width  : 3.8rem;
+        height : 3.8rem;
+    }
+}
