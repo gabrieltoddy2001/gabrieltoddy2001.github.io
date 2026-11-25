@@ -252,21 +252,17 @@
 
         folioLinks.forEach(function(link) {
             let modalbox = link.getAttribute('href');
-            let instance = basicLightbox.create(
-                document.querySelector(modalbox),
-                {
-                    onShow: function(instance) {
-                        //detect Escape key press
-                        document.addEventListener("keydown", function(event) {
-                            event = event || window.event;
-                            if (event.keyCode === 27) {
-                                instance.close();
-                            }
-                        });
-                    }
-                }
-            )
+            let instance = basicLightbox.create(document.querySelector(modalbox));
             modals.push(instance);
+        });
+
+        // Esc fecha o modal aberto (um único listener, em vez de um novo a cada abertura)
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                modals.forEach(function(modal) {
+                    if (modal.visible()) modal.close();
+                });
+            }
         });
 
         folioLinks.forEach(function(link, index) {

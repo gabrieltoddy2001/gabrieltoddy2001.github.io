@@ -153,7 +153,7 @@
      */
     --color-text        : var(--color-gray-4);
     --color-text-dark   : var(--color-white);
-    --color-text-light  : var(--color-gray-7);
+    --color-text-light  : var(--color-gray-5);
     --color-placeholder : var(--color-gray-7);
 
     /* buttons
@@ -4237,4 +4237,31 @@ img.u-pull-left {
     .ss-go-top {
         right : 6vw;
     }
+}
+
+/* ===================================================================
+ * Ajustes do portfólio
+ * ------------------------------------------------------------------- */
+
+/* e-mail longo não invade a coluna ao lado */
+.contact-links a {
+    overflow-wrap : anywhere;
+}
+
+/* links das redes sociais do topo um pouco maiores */
+.intro-social a {
+    font-size : 1.2rem;
+}
+
+/* título dentro do modal de cada projeto */
+.modal-popup__desc h3 {
+    margin-top    : 0;
+    margin-bottom : var(--vspace-0_5);
+    color         : var(--color-black);
+}
+
+/* imagens não distorcem antes de carregar */
+.about-info__pic,
+.modal-popup img {
+    height : auto;
 }
